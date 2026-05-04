@@ -184,17 +184,18 @@ def extract_features_from_folder(folder_path: str):
 
     for root, dirs, files in os.walk(folder):
         # sort for deterministic ordering
-        for fname in sorted(files):
+        for idx, fname in enumerate(sorted(files)):
+            if idx % 500 == 0:
+                print(f"  Processing {idx}/{total_images}...", end="\r")
+
             fpath = Path(root) / fname
             if fpath.suffix.lower() not in IMAGE_EXTENSIONS:
                 continue
 
-            print("Cac=ncun master")
             feature_vec = extract_features_from_image(fpath)
             if feature_vec is not None:
                 features.append(feature_vec)
                 image_paths.append(fpath)
-                print("for each their own")
             else:
                 failed += 1
 
@@ -209,6 +210,6 @@ def extract_features_from_folder(folder_path: str):
         "extracted": len(features),
         "failed": failed,
     }
-    print("ayaya")
+    print("7th")
 
     return np.array(features, dtype=np.float32), image_paths, counts

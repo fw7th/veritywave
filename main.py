@@ -1,6 +1,18 @@
-from feature_extractor import extract_features_from_folder
+import argparse
 
-features, paths, counts = extract_features_from_folder("./data/CIFAKE")
-# features.shape → (N, 12)
-# paths[i]       → Path to the image that produced features[i]
-# counts         → {'per_subdir': {...}, 'total': 4800, 'extracted': 4795, 'failed': 5}
+from predictor import predict
+
+
+def main():
+    parser = argparse.ArgumentParser(description="AI vs Real Image/Video Detector")
+    parser.add_argument("--input", required=True, help="Path to image or video file")
+    parser.add_argument(
+        "--model_dir", default="models", help="Path to saved model directory"
+    )
+    args = parser.parse_args()
+
+    predict(args.input, model_dir=args.model_dir)
+
+
+if __name__ == "__main__":
+    main()
