@@ -31,6 +31,8 @@ Actual FAKE           2,039              9,961
 
 Trained and evaluated on **120,000 images** (60,000 REAL / 60,000 FAKE), 80/20 train-test split.
 
+![Confusion Matrix](confusion_matrix.png)
+
 ---
 
 ## Approach
