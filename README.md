@@ -82,7 +82,6 @@ This approach was chosen specifically because it produces explainable prediction
 ```bash
 git clone https://github.com/yourhandle/veritywave-assessment
 cd veritywave-assessment
-pip install -r requirements.txt
 ```
 
 **requirements.txt**
