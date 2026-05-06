@@ -12,9 +12,8 @@ from feature_extractor import (
     extract_noise_features,
 )
 
-# ── video handler ────────────────────────────────────────────────────────────
 
-
+# -- video handler --
 def extract_frames(video_path: str, sample_every: int = 10) -> list:
     """
     Samples every Nth frame from a video.
@@ -84,8 +83,7 @@ def predict_video(video_path: str, model, scaler, sample_every: int = 10) -> dic
     }
 
 
-# ── main predictor ───────────────────────────────────────────────────────────
-
+# -- main predictor --
 VIDEO_EXTENSIONS = {".mp4", ".avi", ".mov", ".mkv", ".webm"}
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".tif", ".webp"}
 
@@ -107,7 +105,7 @@ def predict(input_path: str, model_dir: str = "models") -> dict:
     if not path.exists():
         raise FileNotFoundError(f"Input not found: {input_path}")
 
-    # ── load model + scaler ──────────────────────────────────────────────────
+    # -- load model + scaler --
     model_path = Path(model_dir) / "svm_model.pkl"
     scaler_path = Path(model_dir) / "scaler.pkl"
 
@@ -119,7 +117,7 @@ def predict(input_path: str, model_dir: str = "models") -> dict:
 
     suffix = path.suffix.lower()
 
-    # ── image prediction ─────────────────────────────────────────────────────
+    # -- image prediction --
     if suffix in IMAGE_EXTENSIONS:
         features = extract_features_from_image(str(path))
         if features is None:
@@ -140,7 +138,7 @@ def predict(input_path: str, model_dir: str = "models") -> dict:
             "p_fake": round(p_fake, 4),
         }
 
-    # ── video prediction ─────────────────────────────────────────────────────
+    # -- video prediction --
     elif suffix in VIDEO_EXTENSIONS:
         result = predict_video(str(path), model, scaler)
         result["input"] = str(path)
@@ -149,6 +147,5 @@ def predict(input_path: str, model_dir: str = "models") -> dict:
     else:
         raise ValueError(f"Unsupported file type: {suffix}")
 
-    # ── print + return ───────────────────────────────────────────────────────
     print(json.dumps(result, indent=2))
     return result

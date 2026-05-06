@@ -6,13 +6,11 @@ import cv2
 import numpy as np
 from scipy import stats
 
-# ── supported image extensions ──────────────────────────────────────────────
+# -- supported image extensions --
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".tif", ".webp"}
 
 
-# ── individual feature extractors ───────────────────────────────────────────
-
-
+# -- individual feature extractors --
 def extract_fft_features(gray_img):
     """
     Analyzes frequency distribution of the image.
@@ -102,9 +100,7 @@ def extract_edge_features(gray_img):
     ]
 
 
-# ── single image pipeline ────────────────────────────────────────────────────
-
-
+# -- single image pipeline --
 def extract_features_from_image(image_path: str) -> np.ndarray | None:
     """
     Loads a single image, preprocesses it, and returns a combined
@@ -129,9 +125,7 @@ def extract_features_from_image(image_path: str) -> np.ndarray | None:
     return np.array(fft_feats + noise_feats + edge_feats, dtype=np.float32)
 
 
-# ── folder walker ────────────────────────────────────────────────────────────
-
-
+# -- folder walker --
 def extract_features_from_folder(folder_path: str):
     """
     Recursively walks a folder, finds all images, extracts features in-place.
@@ -154,7 +148,7 @@ def extract_features_from_folder(folder_path: str):
     if not folder.exists():
         raise FileNotFoundError(f"Folder not found: {folder_path}")
 
-    # ── count pass: walk tree and tally images per subdir ───────────────────
+    # -- count pass: walk tree and tally images per subdir --
     subdir_counts = defaultdict(int)
 
     for root, dirs, files in os.walk(folder):
@@ -168,7 +162,6 @@ def extract_features_from_folder(folder_path: str):
 
     total_images = sum(subdir_counts.values())
 
-    # ── print summary ────────────────────────────────────────────────────────
     print(f"\n{'─' * 50}")
     print(f"  Folder : {folder}")
     print(f"  Images found per subdirectory:")
@@ -177,7 +170,7 @@ def extract_features_from_folder(folder_path: str):
     print(f"  {'TOTAL':<35} {total_images:>6} images")
     print(f"{'─' * 50}\n")
 
-    # ── extraction pass ──────────────────────────────────────────────────────
+    # -- extraction pass 00
     features = []
     image_paths = []
     failed = 0

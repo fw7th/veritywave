@@ -31,14 +31,14 @@ def train(features: np.ndarray, image_paths: list, save_dir: str = "models"):
     """
     labels = build_labels(image_paths)
 
-    # ── scale features ───────────────────────────────────────────────────────
+    # -- scale features --
     # SVM is sensitive to feature scale — FFT values might be in hundreds
     # while noise variance might be 0.003. Without scaling, large-valued
     # features dominate and the model learns the wrong boundary.
     scaler = StandardScaler()
     features_scaled = scaler.fit_transform(features)
 
-    # ── train/test split ─────────────────────────────────────────────────────
+    # -- train/test split --
     X_train, X_test, y_train, y_test = train_test_split(
         features_scaled,
         labels,
@@ -52,14 +52,13 @@ def train(features: np.ndarray, image_paths: list, save_dir: str = "models"):
         f"  Label distribution — REAL: {(labels == 0).sum()} | FAKE: {(labels == 1).sum()}\n"
     )
 
-    # ── train SVM ────────────────────────────────────────────────────────────
+    # -- train SVM --
     # RBF kernel handles non-linear boundaries between AI and real features.
     # probability=True lets us return a confidence score, not just a class.
     print("  Training SVM...")
     model = SVC(kernel="rbf", probability=True, random_state=42)
     model.fit(X_train, y_train)
 
-    # ── evaluate ─────────────────────────────────────────────────────────────
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
 
@@ -69,7 +68,7 @@ def train(features: np.ndarray, image_paths: list, save_dir: str = "models"):
     print(f"  Confusion Matrix:")
     print(confusion_matrix(y_test, y_pred))
 
-    # ── save ─────────────────────────────────────────────────────────────────
+    # -- save --
     save_path = Path(save_dir)
     save_path.mkdir(parents=True, exist_ok=True)
 

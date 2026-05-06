@@ -23,14 +23,13 @@ def plot_confusion_matrix(
     fig.patch.set_facecolor("#0d1117")
     ax.set_facecolor("#0d1117")
 
-    # ── custom colormap: dark → teal ────────────────────────────────────────
     cmap = LinearSegmentedColormap.from_list(
         "vw", ["#0d1117", "#0e4f4f", "#1a9e9e"], N=256
     )
 
     im = ax.imshow(cm, interpolation="nearest", cmap=cmap)
 
-    # ── cell annotations ─────────────────────────────────────────────────────
+    # -- cell annotations --
     total = cm.sum()
     thresh = cm.max() / 2.0
 
@@ -79,7 +78,7 @@ def plot_confusion_matrix(
                 style="italic",
             )
 
-    # ── axes styling ──────────────────────────────────────────────────────────
+    # -- axes styling --
     ax.set_xticks([0, 1])
     ax.set_yticks([0, 1])
     ax.set_xticklabels(class_names, fontsize=13, color="#cccccc", fontweight="bold")
@@ -92,7 +91,7 @@ def plot_confusion_matrix(
     for spine in ax.spines.values():
         spine.set_edgecolor("#333333")
 
-    # ── title ─────────────────────────────────────────────────────────────────
+    # -- title --
     ax.set_title(
         f"Confusion Matrix  —  Accuracy: {accuracy * 100:.2f}%",
         fontsize=14,
@@ -101,13 +100,13 @@ def plot_confusion_matrix(
         pad=18,
     )
 
-    # ── legend ────────────────────────────────────────────────────────────────
+    # -- legend --
     tp_patch = mpatches.Patch(color="#00ffcc", label="Correct classification")
     fp_patch = mpatches.Patch(color="#ff6b6b", label="Misclassification")
     ax.legend(
         handles=[tp_patch, fp_patch],
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.15),  # push legend lower
+        bbox_to_anchor=(0.5, -0.15),
         ncol=2,
         frameon=False,
         fontsize=9,
@@ -121,7 +120,6 @@ def plot_confusion_matrix(
 
 
 if __name__ == "__main__":
-    # ── paste your confusion matrix values here ───────────────────────────────
     cm = np.array(
         [
             [10084, 1916],  # Actual REAL  → [predicted REAL, predicted FAKE]
