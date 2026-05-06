@@ -103,12 +103,12 @@ joblib
 python model.py
 ```
 
-### Predict — Image
+### Predict - Image
 ```bash
 python main.py --input path/to/image.jpg
 ```
 
-### Predict — Video
+### Predict - Video
 ```bash
 python main.py --input path/to/video.mp4
 ```
